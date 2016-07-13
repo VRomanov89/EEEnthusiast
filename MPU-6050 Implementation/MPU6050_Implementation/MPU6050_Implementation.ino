@@ -71,9 +71,9 @@ void recordAccelRegisters() {
 }
 
 void processAccelData(){
-  gForceX = accelX / 16384;
-  gForceY = accelY / 16384; 
-  gForceZ = accelZ / 16384;
+  gForceX = accelX / 16384.0;
+  gForceY = accelY / 16384.0; 
+  gForceZ = accelZ / 16384.0;
 }
 
 void recordGyroRegisters() {
@@ -89,24 +89,25 @@ void recordGyroRegisters() {
 }
 
 void processGyroData() {
-  rotX = gyroX / 131;
-  rotY = gyroY / 131; 
-  rotZ = gyroZ / 131;
+  rotX = gyroX / 131.0;
+  rotY = gyroY / 131.0; 
+  rotZ = gyroZ / 131.0;
 }
 
 void printData() {
-  Serial.print("X=");
-  Serial.print(gForceX);
-  Serial.print(" Y=");
-  Serial.print(gForceY);
-  Serial.print(" Z=");
-  Serial.print(gForceZ);
-  Serial.print(" Rotation");
+  Serial.print("Gyro (deg)");
   Serial.print(" X=");
   Serial.print(rotX);
   Serial.print(" Y=");
   Serial.print(rotY);
   Serial.print(" Z=");
-  Serial.println(rotZ);
+  Serial.print(rotZ);
+  Serial.print(" Accel (g)");
+  Serial.print(" X=");
+  Serial.print(gForceX);
+  Serial.print(" Y=");
+  Serial.print(gForceY);
+  Serial.print(" Z=");
+  Serial.println(gForceZ);
 }
 
