@@ -23,10 +23,11 @@ the software.
 
 #include <Wire.h>
 
-long accelX, accelY, accelZ, accelTotal;
-long accelRoll, accelPitch, accelYaw;
+long accelX, accelY, accelZ;
+float gForceX, gForceY, gForceZ;
 
 long gyroX, gyroY, gyroZ;
+float rotX, rotY, rotZ;
 
 void setup() {
   Serial.begin(9600);
@@ -39,7 +40,7 @@ void loop() {
   recordAccelRegisters();
   recordGyroRegisters();
   printData();
-  delay(200);
+  delay(100);
 }
 
 void setupMPU(){
@@ -66,13 +67,13 @@ void recordAccelRegisters() {
   accelX = Wire.read()<<8|Wire.read(); //Store first two bytes into accelX
   accelY = Wire.read()<<8|Wire.read(); //Store middle two bytes into accelY
   accelZ = Wire.read()<<8|Wire.read(); //Store last two bytes into accelZ
+  processAccelData();
 }
 
 void processAccelData(){
-  accelTotal = sqrt(pow(accelX,2) + pow(accelY,2) + pow(accelZ,2)); //Calculation of the total accel vector.
-  accelRoll = asin((float)accelX/accelTotal)* -57.296;
-  accelPitch = asin((float)accelY/accelTotal)* 57.296;
-  accelYaw = asin((float)accelZ/accelTotal)* -57.296;  
+  gForceX = accelX / 16384;
+  gForceY = accelY / 16384; 
+  gForceZ = accelZ / 16384;
 }
 
 void recordGyroRegisters() {
@@ -84,16 +85,28 @@ void recordGyroRegisters() {
   gyroX = Wire.read()<<8|Wire.read(); //Store first two bytes into accelX
   gyroY = Wire.read()<<8|Wire.read(); //Store middle two bytes into accelY
   gyroZ = Wire.read()<<8|Wire.read(); //Store last two bytes into accelZ
+  processGyroData();
+}
+
+void processGyroData() {
+  rotX = gyroX / 131;
+  rotY = gyroY / 131; 
+  rotZ = gyroZ / 131;
 }
 
 void printData() {
   Serial.print("X=");
-  Serial.print(accelX);
+  Serial.print(gForceX);
   Serial.print(" Y=");
-  Serial.print(accelY);
+  Serial.print(gForceY);
   Serial.print(" Z=");
-  Serial.print(accelZ);
-  Serial.print(" Total=");
-  Serial.println(accelTotal);
+  Serial.print(gForceZ);
+  Serial.print(" Rotation");
+  Serial.print(" X=");
+  Serial.print(rotX);
+  Serial.print(" Y=");
+  Serial.print(rotY);
+  Serial.print(" Z=");
+  Serial.println(rotZ);
 }
 
