@@ -11,6 +11,7 @@ Revision: 1.0 (July 13th, 2016)
 - MPU-6050 (Available from: http://eeenthusiast.com/product/6dof-mpu-6050-accelerometer-gyroscope-temperature/)
 
 ===Software===
+- Latest Software: https://github.com/VRomanov89/EEEnthusiast/tree/master/MPU-6050%20Implementation/MPU6050_Implementation
 - Arduino IDE v1.6.9
 - Arduino Wire library
 
@@ -29,10 +30,13 @@ float gForceX, gForceY, gForceZ;
 long gyroX, gyroY, gyroZ;
 float rotX, rotY, rotZ;
 
+int accelXb, accelYb, accelZb, accelDev = 1000, accelCert = 0;
+
 void setup() {
   Serial.begin(9600);
   Wire.begin();
   setupMPU();
+  pinMode(13, OUTPUT);
 }
 
 
@@ -41,6 +45,7 @@ void loop() {
   recordGyroRegisters();
   printData();
   delay(100);
+  ledON();
 }
 
 void setupMPU(){
@@ -109,5 +114,22 @@ void printData() {
   Serial.print(gForceY);
   Serial.print(" Z=");
   Serial.println(gForceZ);
+}
+
+void ledON(){
+  if(accelX < (accelXb + accelDev) && accelX > (accelXb - accelDev) && accelY < (accelYb + accelDev) && accelY > (accelYb - accelDev) && accelZ < (accelZb + accelDev) && accelZ > (accelZb - accelDev)) {
+    //The module is stopped.
+    if(accelCert < 100) {
+      accelCert++;
+    } 
+  }else{
+    accelCert = 0;
+  }
+  accelXb = accelX; accelYb = accelY; accelZb = accelZ;
+  if(accelCert > 100){
+  digitalWrite(13, HIGH);
+  }else{
+  digitalWrite(13, LOW);
+  }
 }
 
