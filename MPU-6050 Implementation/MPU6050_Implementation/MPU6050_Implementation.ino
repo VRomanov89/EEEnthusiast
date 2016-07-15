@@ -30,8 +30,6 @@ float gForceX, gForceY, gForceZ;
 long gyroX, gyroY, gyroZ;
 float rotX, rotY, rotZ;
 
-int accelXb, accelYb, accelZb, accelDev = 1000, accelCert = 0;
-
 void setup() {
   Serial.begin(9600);
   Wire.begin();
