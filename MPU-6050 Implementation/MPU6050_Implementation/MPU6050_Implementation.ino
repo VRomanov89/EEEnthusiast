@@ -36,7 +36,6 @@ void setup() {
   Serial.begin(9600);
   Wire.begin();
   setupMPU();
-  pinMode(13, OUTPUT);
 }
 
 
@@ -45,7 +44,6 @@ void loop() {
   recordGyroRegisters();
   printData();
   delay(100);
-  ledON();
 }
 
 void setupMPU(){
@@ -114,22 +112,5 @@ void printData() {
   Serial.print(gForceY);
   Serial.print(" Z=");
   Serial.println(gForceZ);
-}
-
-void ledON(){
-  if(accelX < (accelXb + accelDev) && accelX > (accelXb - accelDev) && accelY < (accelYb + accelDev) && accelY > (accelYb - accelDev) && accelZ < (accelZb + accelDev) && accelZ > (accelZb - accelDev)) {
-    //The module is stopped.
-    if(accelCert < 100) {
-      accelCert++;
-    } 
-  }else{
-    accelCert = 0;
-  }
-  accelXb = accelX; accelYb = accelY; accelZb = accelZ;
-  if(accelCert > 100){
-  digitalWrite(13, HIGH);
-  }else{
-  digitalWrite(13, LOW);
-  }
 }
 
