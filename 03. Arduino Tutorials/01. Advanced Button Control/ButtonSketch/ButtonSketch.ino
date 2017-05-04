@@ -14,11 +14,10 @@ long debounceDelay = 50;
 void setup() {
   for(int i = 0; i < numOfInputs; i++) {
     pinMode(inputPins[i], INPUT);
-    digitalWrite(inputPins[i], HIGH);
+    digitalWrite(inputPins[i], HIGH); // pull-up 20k
   }
   Serial.begin(9600);
   pinMode(outputPin, OUTPUT);
-  //digitalWrite(outputPin, outputState);
 }
 
 void loop() {
@@ -37,7 +36,6 @@ void setInputFlags() {
       if (reading != inputState[i]) {
         inputState[i] = reading;
         if (inputState[i] == HIGH) {
-          //outputState = !outputState;
           inputFlags[i] = HIGH;
         }
       }
@@ -51,9 +49,7 @@ void resolveInputFlags() {
     if(inputFlags[i] == HIGH) {
       // Input Toggle Logic
       inputCounters[i]++;
-      updateLEDState(i);
-
-      
+      updateLEDState(i); 
       printString(i);
       inputFlags[i] = LOW;
     }
@@ -69,13 +65,15 @@ void printString(int output) {
 }
 
 void updateLEDState(int input) {
+  // input 0 = State 0 and 1
   if(input == 0) {
     if(LEDState == 0) {
       LEDState = 1;
     }else{
       LEDState = 0;
     }
-  }else if(input == 1) {
+  // input 1 = State 2 to 6
+  }else if(input == 1) { // 2,3,4,5,6,2,3,4,5,6,2,
     if(LEDState == 0 || LEDState == 1 || LEDState > 5) {
       LEDState = 2;
     }else{
