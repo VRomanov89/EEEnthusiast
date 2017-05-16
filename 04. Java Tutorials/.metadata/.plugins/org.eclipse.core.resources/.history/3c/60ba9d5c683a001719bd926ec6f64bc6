@@ -1,0 +1,17 @@
+public class main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Queue<String> myQueue = new Queue<String>();
+		Stack<String> myStack = new Stack<String>();
+		myStack.push("person 1");
+		myStack.push("person 2");
+		myStack.push("person 3");
+		myStack.pop();
+		myStack.pop();
+		myStack.pop();
+
+
+	}
+
+}
