@@ -18,5 +18,19 @@ public class Stack<E> {
 		return list.first();
 	}
 	
+	public String reverse(String myString) {
+		System.out.println("Initial String = " + myString);
+		String newString = "";
+		Stack<String> myStack = new Stack<>();
+		for(int i = 0; i < myString.length(); i ++) {
+			myStack.push(myString.substring(i, i+1));
+		}
+		while(!myStack.isEmpty()){
+			newString += myStack.pop();
+		}
+		System.out.println("Final String = " + newString);
+		return newString;
+	}
+	
 
 }
