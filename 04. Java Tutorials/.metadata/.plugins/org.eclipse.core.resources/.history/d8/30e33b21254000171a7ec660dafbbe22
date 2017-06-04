@@ -1,0 +1,71 @@
+
+public class BinaryTreeTest<T> {
+	public interface Location<T> {
+		T getElement() throws IllegalStateException;
+	}
+	protected static class Node<T> implements Location {
+		private T element;
+		private Node<T> parent;
+		private Node<T> left;
+		private Node<T> right;
+		public Node(T ele, Node<T> parentNode, Node<T> leftChild, Node<T> rightChild) {
+			element = ele;
+			parent = parentNode;
+			left = leftChild;
+			right = rightChild;
+		}
+		public T getElement() {
+			return element;
+		}
+		public Node<T> getParent() {
+			return parent;
+		}
+		public Node<T> getLeftChild() {
+			return left;
+		}
+		public Node<T> getRightChild() {
+			return right;
+		}
+		public void setElement(T ele) {
+			element = ele;
+		}
+		public void setParent(Node<T> parentNode) {
+			parent = parentNode;
+		}
+		public void setLeft(Node<T> leftChild) {
+			left = leftChild;
+		}
+		public void setRight(Node<T> rightChild) {
+			right = rightChild;
+		}
+	}
+	
+	protected Node<T> createNode(T ele, Node<T> parent, Node<T> left, Node<T> right) {
+		return new Node<T>(ele, parent, left, right);
+	}
+	
+	protected Node<T> root = null;
+	private int size = 0;
+	public BinaryTreeTest() { }
+	
+	protected Node<T> validate(Location<T> loc) throws IllegalArgumentException {
+		if(!(loc instanceof Node)) {
+			throw new IllegalArgumentException("Not a valid location type");
+		}
+		Node<T> node = (Node<T>) loc;
+		if (node.getParent() == node) {
+			throw new IllegalArgumentException("loc is not in the tree");
+		}
+		return node;
+	}
+	
+	public int size() {
+		return size;
+	}
+	public Location<T> root() {
+		return root;
+	}
+	public Location<T> parent(Location<T> node) {
+		return node.getParent();
+	}
+}
